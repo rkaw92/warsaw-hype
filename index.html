@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Hype Management in JS</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+    <!-- Shower Theme -->
+    <link rel="stylesheet" href="vendors/shower-ribbon/styles/screen-16x10.css" />
+    <link rel="stylesheet" href="vendors/shower-warsawjs/styles/main.css" />
+
+    <!-- Prism.js -->
+    <link rel="stylesheet" href="vendors/prism/prism.css" />
+    <link rel="stylesheet" href="vendors/prism/custom-prism.css" />
+
+    <!-- Highlight.js -->
+    <link rel="stylesheet" href="vendors/highlight.js/default.min.css" />
+
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="custom/style.css" />
+</head>
+<body class="shower list higher">
+	<header class="caption">
+		<h1>Hype Management in JS</h1>
+		<p>The hitchhiker's guide to conscious application design, picking tools and surviving in a post-architecture world.</p>
+	</header>
+
+	<section class="slide front-page">
+		<div class="logo">
+			<!-- Logo WarsawJS -->
+			<img src="pictures/logo/warsawjs-logo-light.png">
+		</div>
+		<div class="details">
+			<!-- 1. Avatar -->
+			<img src="pictures/robert.jpg" alt="Robert Kawecki (speaker)" />
+
+			<!-- 2. Speaker -->
+			<h2>Robert Kawecki</h2>
+
+			<!-- 3a. Fake presentation title "a" -->
+			<h2><strong>"Heap management"</strong></h2>
+
+			<!-- 4. Presentation date -->
+			<h2>2077-08-09</h2>
+
+			<!-- 5. Contact the speaker -->
+			<h2><a href="https://github.com/rkaw92">github.com/rkaw92</a></h2>
+		</div>
+	</section>
+
+  <section class="slide">
+    <img src="pictures/heap.png" style="margin-top: -30px;" class="diagram" alt="The heap - totally not related" />
+	</section>
+
+  <section class="slide front-page">
+    <div class="logo">
+      <!-- Logo WarsawJS -->
+      <img src="pictures/logo/warsawjs-logo-light.png">
+    </div>
+    <div class="details">
+      <!-- 1. Avatar -->
+      <img src="pictures/robert.jpg" alt="Robert Kawecki (speaker)" />
+
+      <!-- 2. Speaker -->
+      <h2>Robert Kawecki</h2>
+
+      <!-- 3a. Fake presentation title "b" -->
+      <h2><strong>"Hip management"</strong></h2>
+
+      <!-- 4. Presentation date -->
+      <h2>2087-08-09</h2>
+
+      <!-- 5. Contact the speaker -->
+      <h2><a href="https://github.com/rkaw92">github.com/rkaw92</a></h2>
+    </div>
+  </section>
+
+  <section class="slide">
+    <img src="pictures/hipster.jpg" class="diagram" alt="A hipster boss - acts friendly but is still not the topic of this talk" />
+	</section>
+
+  <!-- Actual presentation starts here -->
+
+  <section class="slide front-page">
+    <div class="logo">
+      <!-- Logo WarsawJS -->
+      <img src="pictures/logo/warsawjs-logo-light.png">
+    </div>
+    <div class="details">
+      <!-- 1. Avatar -->
+      <img src="pictures/robert.jpg" alt="Robert Kawecki (speaker)" />
+
+      <!-- 2. Speaker -->
+      <h2>Robert Kawecki</h2>
+
+      <!-- 3c. Real presentation title -->
+      <h2><strong>"Hype management"<br />(for real this time)</strong></h2>
+
+      <!-- 4. Presentation date -->
+      <h2>2017-08-09</h2>
+
+      <!-- 5. Contact the speaker -->
+      <h2><a href="https://github.com/rkaw92">github.com/rkaw92</a></h2>
+    </div>
+  </section>
+
+	<section class="slide">
+		<h2>What does it take to talk?</h2>
+		<ul>
+			<li>Speaking (requests)</li>
+      <li>Listening (responses / updates)</li>
+		</ul>
+    <img src="pictures/communication.svg" class="diagram" alt="Client and server" />
+	</section>
+
+  <section class="slide">
+		<h2>The Dark Ages</h2>
+		<ul>
+			<li>No XHR - just forms</li>
+      <li>PHP/FI or own CGI</li>
+      <li>(i)frames with user polls</li>
+		</ul>
+	</section>
+
+  <section class="slide">
+		<h2>Work-arounds</h2>
+		<ul>
+			<li>GET as data-sending mechanism</li>
+      <li>Update delivery: infinite &lt;script&gt;</li>
+      <li>No error handling</li>
+		</ul>
+	</section>
+
+  <section class="slide">
+    <h2>:-(</h2>
+    <pre class="code-sample"><code>
+      &lt;script type="text/javascript" language="JavaScript"&gt;
+        function processUpdates(updates) {
+          // ...
+          document.write('&lt;script src="/updates/js" type="text/javascript" language="JavaScript"&gt;&lt;/script&gt;');
+        }
+      &lt;/script&gt;
+      &lt;script src="/updates/js" type="text/javascript" language="JavaScript"&gt;&lt;/script&gt;
+    </code></pre>
+  </section>
+
+  <section class="slide">
+		<h2>Enter XMLHttpRequest</h2>
+		<ul>
+			<li>Wind to the Web 2.0 sails<ul>
+        <li>Thanks, <a href="https://msdn.microsoft.com/en-us/library/ms537505(v=vs.85).aspx">IE 5</a>!</li>
+      </ul></li>
+      <li>Event-driven asynchronous requests</li>
+      <li>Used by most single-page apps and REST clients</li>
+		</ul>
+	</section>
+
+  <section class="slide">
+    <h2>:-)</h2>
+    <pre class="code-sample"><code>
+      var req = new XMLHttpRequest();
+      req.open('GET', '/updates/xhr', true); // async
+      req.onreadystatechange = function() {
+        // ...
+      };
+      req.send();
+    </code></pre>
+  </section>
+
+  <section class="slide">
+    <h2>Long polling (Comet)</h2>
+    <ul>
+      <li>XHR that waits for server response</li>
+      <li>One request for every update ("dead time")</li>
+    </ul>
+    <img src="pictures/polling.svg" class="diagram" alt="Long polling" />
+  </section>
+
+  <section class="slide">
+    <h2>Active listening</h2>
+    <pre class="code-sample"><code>
+      req.onreadystatechange = function() {
+        if (req.readyState === 4) {
+          if (req.status === 200) {
+            // Process the response and...
+            poll();
+          } else {
+            setTimeout(poll, 5000);
+          }
+        }
+      }
+    </code></pre>
+  </section>
+
+  <section class="slide">
+		<h2>XHR issues</h2>
+		<ul>
+      <li>Cumbersome name, not really related to XML</li>
+      <li>HTTP Pipelining<ul>
+        <li>JSON-RPC 2.0 bulk request</li>
+      </ul></li>
+		</ul>
+	</section>
+
+  <section class="slide">
+    <h2>When in doubt, simplify</h2>
+    <ul>
+      <li>Server-sent events since Firefox 6 (2011)</li>
+      <li>Simple format, auto-reconnect</li>
+      <li>No IE/Edge support</li>
+      <li>Updates only</li>
+    </ul>
+  </section>
+
+  <section class="slide">
+    <h2>Server-sent Events</h2>
+    <pre class="code-sample"><code>
+      const updates = new EventSource('/updates/sse');
+      updates.onmessage = function(data) {};
+    </code></pre>
+  </section>
+
+  <section class="slide">
+    <h2>Sockets for the masses</h2>
+    <ul>
+      <li>Bi-directional full-duplex goodness</li>
+      <li>Persistent connection, low overhead</li>
+      <li>No request-response requirement</li>
+    </ul>
+  </section>
+
+  <section class="slide">
+    <h2>WebSocket</h2>
+    <pre class="code-sample"><code>
+      const socket = new WebSocket('/updates/ws');
+      socket.addEventListener('message', myMessageHandler);
+      socket.addEventListener('open', function() {
+        socket.send('hey, got any data?');
+      });
+      socket.addEventListener('error', function(error) {
+        // Oops...
+      });
+      socket.open();
+    </code></pre>
+  </section>
+
+  <section class="slide">
+    <h2>The difficulty</h2>
+    <ul>
+      <li>Manual reconnection and state management<ul>
+        <li>Socket object non-reusable</li>
+      </ul></li>
+      <li>Non-obvious REST implementation</li>
+    </ul>
+  </section>
+
+  <section class="slide">
+    <h2>Libraries to the rescue</h2>
+    <ul>
+      <li><a href="http://socket.io">socket.io</a></li>
+      <li><a href="http://sockjs.org">SockJS</a></li>
+      <li><a href="http://meteor.com">Meteor</a></li>
+      <li><a href="https://github.com/greatcare/esdf-ws-client">esdf-ws-client</a></li>
+    </ul>
+  </section>
+
+  <section class="slide">
+    <h2>Credits</h2>
+    <ul>
+      <li>Icons made by <a href="http://www.flaticon.com/authors/madebyoliver" title="Madebyoliver">Madebyoliver</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></li>
+    </ul>
+    <h2>Questions?</h2>
+  </section>
+
+	<div class="progress"></div>
+
+	<footer class="badge">
+		<a href="https://github.com/warsawjs/warsawjs-slides-template">Fork me on GitHub</a>
+	</footer>
+
+	<footer class="badge badge-down">
+		<a href="#" class="fullscreen">Fullscreen</a>
+	</footer>
+
+	<script src="vendors/gamepad/gamepad.js"></script>
+	<script src="vendors/shower/shower.min.js"></script>
+	<script src="vendors/shower-gamepad/shower.gamepad.js"></script>
+	<script src="modules/fullscreen.js"></script>
+
+	<!-- Prism.js -->
+	<script src="vendors/prism/prism.js"></script>
+	<script src="vendors/prism/custom-prism.js"></script>
+
+	<!-- Highlight.js -->
+	<script src="vendors/highlight.js/highlight.min.js"></script>
+	<script>
+		hljs.initHighlightingOnLoad();
+	</script>
+</body>
+</html>
