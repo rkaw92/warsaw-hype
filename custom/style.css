@@ -41,6 +41,13 @@
 	margin-left: 15%;
 }
 
+.illustration {
+	width: auto;
+	height: 80%;
+	margin: 0 auto;
+	display: block;
+}
+
 .higher {
 	margin-top: -30px;
 }
